@@ -152,6 +152,7 @@ export default function Room({
             currentRoleKey={currentRoleKey}
             myRoleKey={myRoleKey}
             avatars={avatars}
+            wheelActive={!!wheel}
             onSendText={onSendText}
             onSendImage={onSendImage}
             onSwitchRole={onSwitchRole}

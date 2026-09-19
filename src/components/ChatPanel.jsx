@@ -5,6 +5,7 @@ const PAGE = 30;
 
 export default function ChatPanel({
   chat, isHost, nickname, roles, currentRoleKey, myRoleKey, avatars,
+  wheelActive,
   onSendText, onSendImage, onSwitchRole, onAddRole, onRemoveRole,
   onImageClick,
 }) {
@@ -12,9 +13,14 @@ export default function ChatPanel({
   const [text, setText] = useState('');
   const [showRoleMgr, setShowRoleMgr] = useState(false);
   const [newRoleName, setNewRoleName] = useState('');
+  const [userExpanded, setUserExpanded] = useState(false);
   const listRef = useRef(null);
   const fileRef = useRef(null);
   const nearBottomRef = useRef(true);
+
+  // 抽签进行时自动收起聊天栏（手机端），抽签结束自动恢复
+  useEffect(() => { if (!wheelActive) setUserExpanded(false); }, [wheelActive]);
+  const collapsed = !!wheelActive && !userExpanded;
 
   const visible = chat.slice(-visibleCount);
   const hasMore = chat.length > visibleCount;
@@ -27,8 +33,8 @@ export default function ChatPanel({
 
   useEffect(() => {
     const el = listRef.current;
-    if (el && nearBottomRef.current) el.scrollTop = el.scrollHeight;
-  }, [chat.length]);
+    if (el && (nearBottomRef.current || collapsed)) el.scrollTop = el.scrollHeight;
+  }, [chat.length, collapsed]);
 
   const send = () => {
     if (!text.trim()) return;
@@ -54,8 +60,16 @@ export default function ChatPanel({
   };
 
   return (
-    <div className="chat-panel">
-      <div className="chat-header">聊天室</div>
+    <div className={`chat-panel ${collapsed ? 'collapsed' : ''}`}>
+      <div className="chat-header">
+        <span>聊天室{collapsed ? '（已收起）' : ''}</span>
+        <button
+          className="btn btn-small chat-toggle"
+          onClick={() => setUserExpanded(collapsed)}
+        >
+          {collapsed ? '展开 ▲' : '收起 ▼'}
+        </button>
+      </div>
 
       {isHost && (
         <div className="role-bar">
@@ -167,6 +181,7 @@ export default function ChatPanel({
           value={text}
           placeholder={isHost ? `以「${myName(currentRoleKey || 'p:host')}」的身份发言` : '输入消息'}
           onChange={(e) => setText(e.target.value)}
+          onFocus={() => setUserExpanded(true)}
           onKeyDown={(e) => { if (e.key === 'Enter') send(); }}
         />
         <button className="btn btn-primary btn-small" onClick={send}>发送</button>

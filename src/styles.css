@@ -224,10 +224,14 @@ input { font-family: inherit; }
   min-height: 0;
 }
 .chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px 14px;
   font-weight: bold;
   border-bottom: 1px solid #4b4368;
 }
+.chat-toggle { display: none; }
 .role-bar {
   display: flex;
   align-items: center;
@@ -490,6 +494,11 @@ input { font-family: inherit; }
     border-left: none;
     border-top: 1px solid #4b4368;
   }
+  .chat-toggle { display: inline-block; }
+  /* 收起状态：只占少量高度，仍能看到最近几条消息 */
+  .chat-panel.collapsed { flex: 0 0 auto; }
+  .chat-panel.collapsed .chat-list { max-height: 110px; }
+  .chat-panel.collapsed .role-bar, .chat-panel.collapsed .role-mgr { display: none; }
   .lobby-title { font-size: 26px; }
   .room-intro { display: none; }
   .room-actions .btn { padding: 5px 9px; font-size: 12px; }
