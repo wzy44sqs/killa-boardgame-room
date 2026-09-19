@@ -1,0 +1,22 @@
+{
+  "name": "killa-boardgame-room",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "signal": "peerjs --port 9000 --path /"
+  },
+  "dependencies": {
+    "peerjs": "^1.5.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "peer": "^1.0.2",
+    "vite": "^5.4.8"
+  }
+}
