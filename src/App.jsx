@@ -32,6 +32,7 @@ export default function App() {
   const [session, setSession] = useState(null);
   const [lobbyError, setLobbyError] = useState('');
   const [connecting, setConnecting] = useState(false);
+  const [debugLogs, setDebugLogs] = useState([]);
 
   const netRef = useRef(null);
   const sessionRef = useRef(null);
@@ -282,8 +283,12 @@ export default function App() {
     if (!roomId) { setLobbyError('请输入房间号'); return; }
     setLobbyError('');
     setConnecting(true);
+    setDebugLogs([]);
 
     const net = new PeerNet({
+      onLog: (msg) => {
+        setDebugLogs((prev) => [...prev.slice(-99), `${new Date().toLocaleTimeString()} ${msg}`]);
+      },
       onBecameHost: (rid) => {
         const saved = loadRoomState(rid);
         const chat = loadChat(rid);
@@ -517,6 +522,7 @@ export default function App() {
       connecting={connecting}
       onCreate={createRoom}
       onJoin={enterRoom}
+      debugLogs={debugLogs}
     />
   );
 }

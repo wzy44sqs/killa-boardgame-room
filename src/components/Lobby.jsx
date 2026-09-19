@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { loadRecent } from '../storage';
 
-export default function Lobby({ error, connecting, onCreate, onJoin }) {
+export default function Lobby({ error, connecting, onCreate, onJoin, debugLogs = [] }) {
   const [nickname, setNickname] = useState('');
   const [roomId, setRoomId] = useState('');
   const [roomName, setRoomName] = useState('');
@@ -90,6 +90,18 @@ export default function Lobby({ error, connecting, onCreate, onJoin }) {
               <span className="recent-time">{new Date(r.ts).toLocaleString()}</span>
             </button>
           ))}
+        </div>
+      )}
+      {debugLogs.length > 0 && (
+        <div className="debug-log">
+          <div className="debug-log-header">
+            <span>连接日志（排查用，可复制发给开发者）</span>
+            <button
+              className="btn btn-small"
+              onClick={() => navigator.clipboard?.writeText(debugLogs.join('\n')).catch(() => {})}
+            >复制</button>
+          </div>
+          <pre className="debug-log-body">{debugLogs.join('\n')}</pre>
         </div>
       )}
     </div>

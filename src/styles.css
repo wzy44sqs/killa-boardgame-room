@@ -83,6 +83,33 @@ input { font-family: inherit; }
 .recent-item:hover { border-color: #a78bfa; }
 .recent-id { font-weight: bold; letter-spacing: 1px; }
 .recent-time { font-size: 12px; color: #9ca3af; }
+.debug-log {
+  width: 480px;
+  max-width: 92vw;
+  border: 1px solid #4b4368;
+  border-radius: 8px;
+  background: #15121f;
+}
+.debug-log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #9ca3af;
+  border-bottom: 1px solid #4b4368;
+}
+.debug-log-body {
+  margin: 0;
+  padding: 10px 12px;
+  font-size: 11px;
+  line-height: 1.7;
+  color: #86efac;
+  max-height: 200px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
 
 /* ---------- 房间 ---------- */
 .room {
